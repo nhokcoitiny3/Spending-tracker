@@ -1,10 +1,10 @@
-package com.plcoding.room_cmp
+package com.tiny.spending_tracker
 
 import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.plcoding.room_cmp.database.getExpenseDatabase
+import com.tiny.spending_tracker.database.getExpenseDatabase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

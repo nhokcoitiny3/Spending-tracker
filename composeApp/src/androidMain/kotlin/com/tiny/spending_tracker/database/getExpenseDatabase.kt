@@ -1,4 +1,4 @@
-package com.plcoding.room_cmp.database
+package com.tiny.spending_tracker.database
 
 import android.content.Context
 import androidx.room.Room
