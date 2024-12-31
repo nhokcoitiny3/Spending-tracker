@@ -1,10 +1,10 @@
-package database
+package com.tiny.spending_tracker.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class EmergencyFund(
+data class Income(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val description: String,
     val date: Long,

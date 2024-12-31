@@ -1,3 +1,5 @@
+package com.tiny.spending_tracker.app
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,8 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import database.Expense
-import database.ExpenseDao
+import com.tiny.spending_tracker.database.Expense
+import com.tiny.spending_tracker.database.ExpenseDao
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -1,4 +1,4 @@
-package database
+package com.tiny.spending_tracker.database
 
 import androidx.room.RoomDatabase
 

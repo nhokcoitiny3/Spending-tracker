@@ -2,6 +2,7 @@ package database
 
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.tiny.spending_tracker.database.ExpenseDatabase
 import platform.Foundation.NSHomeDirectory
 
 fun getExpenseDatabase(): ExpenseDatabase {

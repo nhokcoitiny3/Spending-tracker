@@ -1,4 +1,4 @@
-package database
+package com.tiny.spending_tracker.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase
 )
 abstract class ExpenseDatabase : RoomDatabase() {
 
-    abstract fun peopleDao(): ExpenseDao
-
+    abstract fun expenseDao(): ExpenseDao
+    companion object {
+        const val DB_NAME = "expenses.db"
+    }
 }
