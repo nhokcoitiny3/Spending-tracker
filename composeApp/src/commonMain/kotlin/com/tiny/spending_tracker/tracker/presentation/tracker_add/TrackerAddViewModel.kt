@@ -1,11 +1,8 @@
-@file:OptIn(FlowPreview::class)
-
-package com.tiny.spending_tracker.tracker.presentation.tracker_home
+package com.tiny.spending_tracker.tracker.presentation.tracker_add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tiny.spending_tracker.tracker.domain.TrackerRepository
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,37 +12,33 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class TrackerHomeViewModel(private val trackerRepository: TrackerRepository) : ViewModel() {
+class TrackerAddViewModel(private val trackerRepository: TrackerRepository) : ViewModel() {
+    private var observeAllCategoryJob: Job? = null
 
-    private var observeAllExpenseJob: Job? = null
-
-    private val _state = MutableStateFlow(TrackerHomeState())
+    private val _state = MutableStateFlow(TrackerAddState())
     val state = _state.onStart {
-        observeAllExpense()
+        observeAllCategory()
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000L), _state.value
     )
 
-    fun onAction(action: TrackerHomeAction) {
+    fun onAction(action: TrackerAddAction) {
         when (action) {
-            is TrackerHomeAction.OnClickViewAll -> {
+            is TrackerAddAction.OnClickSelectCategory -> {
                 _state.update {
                     it.copy(isLoading = false)
                 }
-            }
-            is TrackerHomeAction.OnClickAddNew -> {
-
             }
 
         }
     }
 
-    private fun observeAllExpense() {
-        observeAllExpenseJob?.cancel()
-        observeAllExpenseJob = trackerRepository.getAllExpense().onEach { expenses ->
+    private fun observeAllCategory() {
+        observeAllCategoryJob?.cancel()
+        observeAllCategoryJob = trackerRepository.getAllCategory().onEach { categories ->
             _state.update {
                 it.copy(
-                    listExpense = expenses
+                    listCategory = categories
                 )
             }
         }.launchIn(viewModelScope)

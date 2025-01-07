@@ -11,5 +11,8 @@ sealed interface Route {
     data object TrackerHome: Route
 
     @Serializable
+    data object TrackerAdd: Route
+
+    @Serializable
     data object ExpenseList: Route
 }

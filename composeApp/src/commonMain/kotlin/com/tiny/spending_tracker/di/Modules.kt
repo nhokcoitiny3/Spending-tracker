@@ -6,6 +6,7 @@ import com.tiny.spending_tracker.tracker.data.database.TrackerDatabase
 import com.tiny.spending_tracker.tracker.data.repository.DefaultTrackerRepository
 import com.tiny.spending_tracker.tracker.domain.TrackerRepository
 import com.tiny.spending_tracker.tracker.presentation.tracker_home.TrackerHomeViewModel
+import com.tiny.spending_tracker.tracker.presentation.tracker_add.TrackerAddViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -22,7 +23,9 @@ val sharedModule = module {
             .build()
     }
     single { get<TrackerDatabase>().expenseDao() }
+    single { get<TrackerDatabase>().categoryDao() }
 
     viewModelOf(::TrackerHomeViewModel)
+    viewModelOf(::TrackerAddViewModel)
 
 }

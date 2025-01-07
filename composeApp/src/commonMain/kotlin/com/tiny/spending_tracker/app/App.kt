@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.tiny.spending_tracker.tracker.data.database.ExpenseDao
+import com.tiny.spending_tracker.tracker.presentation.tracker_add.TrackerAddScreenRoot
+import com.tiny.spending_tracker.tracker.presentation.tracker_add.TrackerAddViewModel
 import com.tiny.spending_tracker.tracker.presentation.tracker_home.TrackerHomeScreenRoot
 import com.tiny.spending_tracker.tracker.presentation.tracker_home.TrackerHomeViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -30,6 +31,19 @@ fun App() {
                     val viewModel = koinViewModel<TrackerHomeViewModel>()
 
                     TrackerHomeScreenRoot(
+                        viewModel = viewModel,
+                        onClickAdd = {
+                            navController.navigate(
+                                Route.TrackerAdd
+                            )
+                        }
+                    )
+                }
+                composable<Route.TrackerAdd>(exitTransition = { slideOutHorizontally() },
+                    popEnterTransition = { slideInHorizontally() }) {
+                    val viewModel = koinViewModel<TrackerAddViewModel>()
+
+                    TrackerAddScreenRoot(
                         viewModel = viewModel
                     )
                 }

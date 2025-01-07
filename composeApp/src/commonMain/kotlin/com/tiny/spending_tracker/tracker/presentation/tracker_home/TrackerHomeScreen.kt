@@ -35,9 +35,17 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TrackerHomeScreenRoot(viewModel: TrackerHomeViewModel = koinViewModel()) {
+fun TrackerHomeScreenRoot(
+    viewModel: TrackerHomeViewModel = koinViewModel(), onClickAdd: () -> Unit
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    TrackerHomeScreen(listExpense = state.listExpense, onAction = viewModel::onAction)
+    TrackerHomeScreen(listExpense = state.listExpense, onAction = { action ->
+        when (action) {
+            is TrackerHomeAction.OnClickAddNew -> onClickAdd()
+            else -> Unit
+        }
+        viewModel.onAction(action)
+    })
 }
 
 @Composable
