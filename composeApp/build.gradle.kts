@@ -1,6 +1,8 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -137,3 +139,44 @@ compose.resources{
     packageOfResClass = "com.tiny.spending_tracker"
     generateResClass = auto
 }
+
+val packForXcode by tasks.creating(Sync::class) {
+    val targetDir = File(buildDir, "xcode-frameworks")
+
+    /// selecting the right configuration for the iOS
+    /// framework depending on the environment
+    /// variables set by Xcode build
+    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+    val sdkName: String? = System.getenv("SDK_NAME")
+    val isiOSDevice = sdkName.orEmpty().startsWith("iphoneos")
+
+    val framework = kotlin.targets
+        .getByName<KotlinNativeTarget>(
+            if(isiOSDevice) {
+                "iosArm64"
+            } else {
+                "iosX64"
+            }
+        )
+        .binaries.getFramework(mode)
+
+    inputs.property("mode", mode)
+    dependsOn(framework.linkTaskProvider)
+
+    from({ framework.outputDirectory })
+    into(targetDir)
+
+    println("Build Folder => $targetDir")
+
+    /// generate a helpful ./gradlew wrapper with embedded Java path
+    doLast {
+        val gradlew = File(targetDir, "gradlew")
+        gradlew.writeText("#!/bin/bash\n"
+                + "export 'JAVA_HOME=${System.getProperty("java.home")}'\n"
+                + "cd '${rootProject.rootDir}'\n"
+                + "./gradlew \$@\n")
+        gradlew.setExecutable(true)
+    }
+}
+
+tasks.build.dependsOn("packForXCode")

@@ -30,6 +30,7 @@ class TrackerAddViewModel(private val trackerRepository: TrackerRepository) : Vi
                 }
             }
 
+            else -> {}
         }
     }
 

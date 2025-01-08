@@ -1,7 +1,5 @@
 package com.tiny.spending_tracker.app
 
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -26,26 +24,20 @@ fun App() {
             navigation<Route.TrackerGraph>(
                 startDestination = Route.TrackerHome
             ) {
-                composable<Route.TrackerHome>(exitTransition = { slideOutHorizontally() },
-                    popEnterTransition = { slideInHorizontally() }) {
+                composable<Route.TrackerHome> {
                     val viewModel = koinViewModel<TrackerHomeViewModel>()
 
-                    TrackerHomeScreenRoot(
-                        viewModel = viewModel,
-                        onClickAdd = {
-                            navController.navigate(
-                                Route.TrackerAdd
-                            )
-                        }
-                    )
+                    TrackerHomeScreenRoot(viewModel = viewModel, onClickAdd = {
+                        navController.navigate(
+                            Route.TrackerAdd
+                        )
+                    })
                 }
-                composable<Route.TrackerAdd>(exitTransition = { slideOutHorizontally() },
-                    popEnterTransition = { slideInHorizontally() }) {
+                composable<Route.TrackerAdd> {
                     val viewModel = koinViewModel<TrackerAddViewModel>()
 
-                    TrackerAddScreenRoot(
-                        viewModel = viewModel
-                    )
+                    TrackerAddScreenRoot(viewModel = viewModel,
+                        onBack = { navController.popBackStack() })
                 }
             }
         }
